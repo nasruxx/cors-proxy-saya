@@ -12,6 +12,21 @@ const app = express();
 // dari aplikasi frontend Anda ke server proksi ini.
 app.use(cors());
 
+// --- HALAMAN SAMBUTAN (BARU) ---
+// Tambahkan route untuk root URL (/) agar memberikan pesan sambutan.
+// Ini mengatasi error "Cannot GET /" dan memberikan konfirmasi bahwa server berjalan.
+app.get('/', (req, res) => {
+    res.status(200).send(`
+        <div style="font-family: sans-serif; padding: 2rem; text-align: center;">
+            <h1>CORS Proxy Server Aktif!</h1>
+            <p>Server proksi ini berjalan dan siap meneruskan permintaan Anda.</p>
+            <p>Gunakan path <code>/api</code> untuk meneruskan permintaan ke Facebook Graph API.</p>
+            <p><strong>Contoh Penggunaan:</strong> <code>${req.protocol}://${req.get('host')}/api/v19.0/ads_archive?search_terms=...</code></p>
+        </div>
+    `);
+});
+
+
 // --- Konfigurasi Utama Proksi ---
 
 // URL dasar dari Facebook Graph API (Ad Library)
@@ -60,4 +75,3 @@ app.listen(PORT, () => {
 
 // Ekspor aplikasi untuk Vercel
 module.exports = app;
-
